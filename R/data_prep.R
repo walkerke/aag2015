@@ -36,9 +36,9 @@ total13 <- read_csv('data/totalpop.csv') %>%
 
 regions13 <- left_join(regions, total13, by = "tractid")
 
-colnames(regions13) <- paste0(colnames(regions13), "2013")
+colnames(regions13) <- paste0(colnames(regions13), "_2013")
 
-regions13 %<>% rename(tractid = tractid2013)
+regions13 %<>% rename(tractid = tractid_2013)
 
 
 ## Now, we pull in the 2000 data
@@ -48,9 +48,9 @@ regions00 <- read_stata('data/regions00to10.dta')
 
 ## Need some way to distinguish columns - add "00" to the names of vars
 
-colnames(regions00) <- paste0(colnames(regions00), "2000")
+colnames(regions00) <- paste0(colnames(regions00), "_2000")
 
-regions00 %<>% rename(tractid = trtid102000, total00 = total002000)
+regions00 %<>% rename(tractid = trtid10_2000, total_2000 = total00_2000)
 
 # Now, we need to bring in the distance dataset
 
@@ -58,7 +58,7 @@ dist <- read_csv('data/tract_distance.csv') %>%
   select(tractid = geoid10, distance = distance_f, metroid = geoid10_1) %>%
   mutate(tractid = str_pad(as.character(tractid), width = 11, side = "left", pad = "0"))
 
-## First, we'll merge, subset for metropolitan areas, and then tidy up the resultant data frame.  
+## First, we'll merge and then subset for metropolitan areas.  
 
 metro <- regions13 %>%
   left_join(regions00, by = "tractid") %>%
@@ -66,5 +66,4 @@ metro <- regions13 %>%
   filter(!is.na(distance))
 
 
-metro2 <- metro %>%
-  
+# We take this now into other scripts for visualization and analysis
