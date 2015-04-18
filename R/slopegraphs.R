@@ -9,8 +9,6 @@
 
 source('R/data_prep.R')
 
-metro[is.na(metro)] <- 0 
-
 metro2 <- metro %>%
   group_by(metroid) %>%
   mutate(quantiles = ntile(distance, 5)) %>%
@@ -52,7 +50,7 @@ l2 <- rep(labels, each = 2)
 
 all2 <- cbind(all2, l2)
 
-all2$label00 <- paste0(all2$l2, " ", as.character(round(all2$percent, 1)), "% ")
+all2$label00 <- paste0(all2$l2, " ", as.character(round(all2$percent, 1)), "%  ")
 
 all2$label13 <- paste0("  ", as.character(round(all2$percent, 1)), "%")
 
@@ -62,7 +60,7 @@ all2$label13 <- paste0("  ", as.character(round(all2$percent, 1)), "%")
 library(ggplot2)
 library(extrafont)
 
-ggplot(all2) + 
+g1 <- ggplot(all2) + 
   geom_line(aes(x = as.factor(year), y = percent, group = region, color = region), size = 2) + 
   geom_point(aes(x = as.factor(year), y = percent, color = region), size = 4) + 
   theme_minimal(base_size = 16) + 
@@ -70,19 +68,23 @@ ggplot(all2) +
   xlab("Year") + 
   geom_text(data = subset(all2, year == 2013), 
             aes(x = as.factor(year), y = percent, color = region, label = label13), 
-            size = 6, hjust = 0) + 
+            size = 4, hjust = 0) + 
   geom_text(data = subset(all2, year == 2000 & region != "ssafr"), 
             aes(x = as.factor(year), y = percent, color = region, label = label00), 
-            size = 6, hjust = 1, vjust = 0) + 
+            size = 4, hjust = 1, vjust = 0) + 
   geom_text(data = subset(all2, year == 2000 & region == "ssafr"), 
             aes(x = as.factor(year), y = percent, label = label00), 
-            color = "#a6761d", size = 6, vjust = 0.8, hjust = 1) + 
+            color = "#a6761d", size = 4, vjust = 0.8, hjust = 1) + 
   theme(legend.position = "none", 
         panel.grid.major.y = element_blank(),
         panel.grid.minor.y = element_blank(), 
         axis.ticks.y = element_blank(), 
         axis.title.y = element_blank(), 
-        axis.text.y = element_blank())
+        axis.text.y = element_blank(), 
+        plot.title = element_text(size = 14)) + 
+  ggtitle("Percent of immigrants living in nearest fifth of Census tracts, 50 largest metropolitan areas")
+
+ggsave("plots/all.png", g1, dpi = 300, width = 8.5, height = 8.5)
 
 # Great! Now, for small multiples.  NY, LA, Chi, DFW, Houston, DC, Philly, SF/Oak, Atlanta
 
@@ -124,7 +126,7 @@ metro3$label13 <- paste0("  ", as.character(round(metro3$percent, 1)), "%")
 
 latam <- filter(metro3, region == "latam")
 
-ggplot(latam) + 
+g2 <- ggplot(latam) + 
   geom_line(aes(x = as.factor(year), y = percent, group = region), size = 1.5, color = "#e7298a") + 
   geom_point(aes(x = as.factor(year), y = percent), size = 3, color = "#e7298a") + 
   theme_minimal(base_size = 16) + 
@@ -140,14 +142,18 @@ ggplot(latam) +
         panel.grid.minor.y = element_blank(), 
         axis.ticks.y = element_blank(), 
         axis.title.y = element_blank(), 
-        axis.text.y = element_blank()) + 
+        axis.text.y = element_blank(), 
+        plot.title = element_text(size = 14)) + 
   ggtitle("Percent of Latin American immigrants living in nearest fifth of Census tracts")
+
+ggsave("plots/latam.png", g2, dpi = 300, width = 8)
+
 
 # E/SE Asia
 
 ese <- filter(metro3, region == "eseasia")
 
-ggplot(ese) + 
+g3 <- ggplot(ese) + 
   geom_line(aes(x = as.factor(year), y = percent, group = region), size = 1.5, color = "#d95f02") + 
   geom_point(aes(x = as.factor(year), y = percent), size = 3, color = "#d95f02") + 
   theme_minimal(base_size = 16) + 
@@ -163,8 +169,12 @@ ggplot(ese) +
         panel.grid.minor.y = element_blank(), 
         axis.ticks.y = element_blank(), 
         axis.title.y = element_blank(), 
-        axis.text.y = element_blank()) + 
+        axis.text.y = element_blank(), 
+        plot.title = element_text(size = 14)) + 
   ggtitle("Percent of East and SE Asian immigrants living in nearest fifth of Census tracts")
+
+ggsave("plots/ese.png", g3, dpi = 300, width = 8)
+
 
 
 
@@ -213,4 +223,3 @@ ggplot(ese) +
 # p<-p + geom_text(label=l11, y=a$year1, x=rep.int( 0,length(a)),hjust=1.2,size=3.5)
 # p<-p + geom_text(label="Year 1", x=0,     y=(1.1*(max(a$year3,a$year1))),hjust= 1.2,size=5)
 # p<-p + geom_text(label="Year 3", x=months,y=(1.1*(max(a$year3,a$year1))),hjust=-0.1,size=5)
-p
