@@ -65,5 +65,8 @@ metro <- regions13 %>%
   left_join(dist, by = "tractid") %>%
   filter(!is.na(distance))
 
+metro[is.na(metro)] <- 0 
+
+
 
 # We take this now into other scripts for visualization and analysis
