@@ -51,7 +51,7 @@ knit        : slidify::knit2slides
 
 .fragment <img src=assets/img/imm2010.png>
 
----
+--- {id: sect1}
 
 # Inversion and regions of origin
 
@@ -67,9 +67,9 @@ knit        : slidify::knit2slides
 
 <img src=plots/ese.png style="width: 55%">
 
----
+--- {id: sect2}
 
-# The shifting distance profile of metropolitan immigration
+# The distance profile of immigration
 
 ---
 
@@ -87,7 +87,7 @@ knit        : slidify::knit2slides
 
 <img src=plots/d2.png style="width: 80%">
 
----
+--- {id: sect3}
 
 # The geography of inversion
 
@@ -120,9 +120,18 @@ knit        : slidify::knit2slides
 
 ###### [Image source: Trulia](http://thumbs.trulia-cdn.com/pictures/thumbs_5/ps.72/3/3/6/1/picture-uh=f74669d7bede55d3689ead52588fa11-ps=3361454ad15bc412efb8383449ae46-3812-Branch-Hollow-Pl-Carrollton-TX-75007.jpg)
 
+--- {id: sect4}
+
+# Future directions
+
 ---
 
+## Questions? 
 
+* Slides, data, and code: https://github.com/walkerke/aag2015
+* Web: http://personal.tcu.edu/kylewalker
+* Email: kyle dot walker at tcu dot edu
+* Twitter: [@kyle_e_walker](https://twitter.com/kyle_e_walker)
 
 
 
@@ -145,21 +154,39 @@ knit        : slidify::knit2slides
 #chinatown h6 {
   color: black;
   position: absolute;
-  left: 5px; 
-  bottom: -850px;
+  right: 1200px; 
+  bottom: -700px;
 }
 
 #carrollton h2 {
-  color: red;
+  color: crimson;
 }
 
 #carrollton h6 {
-  color: black;
   position: absolute;
-  left: 5px; 
-  bottom: -850px;
+  right: 1200px; 
+  bottom: -700px;
 }
 
+#sect1 h1 {
+  position: absolute;
+  bottom: -500px;
+}
+
+#sect2 h1 {
+  position: absolute;
+  bottom: -500px;
+}
+
+#sect3 h1 {
+  position: absolute;
+  bottom: -500px;
+}
+
+#sect4 h1 {
+  position: absolute;
+  bottom: -500px;
+}
 
 
 </style>
