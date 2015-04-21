@@ -93,20 +93,44 @@ knit        : slidify::knit2slides
 
 ---
 
+<iframe width='100%' height='800' frameborder='0' src='https://kwalkertcu.cartodb.com/viz/2febf4fe-e854-11e4-9e0b-0e4fddd5de28/embed_map' allowfullscreen webkitallowfullscreen mozallowfullscreen oallowfullscreen msallowfullscreen></iframe>
+
+<!--
+
 <img src=assets/img/chicago_latam.jpg style="width: 40%">
+
+-->
 
 ---
 
+<iframe width='100%' height='800' frameborder='0' src='https://kwalkertcu.cartodb.com/viz/34bf4ff0-e870-11e4-99d0-0e018d66dc29/embed_map' allowfullscreen webkitallowfullscreen mozallowfullscreen oallowfullscreen msallowfullscreen></iframe>
+
+
+<!--
 
 <img src=assets/img/chicago_ese.jpg style="width: 40%">
 
+-->
+
 ---
+
+<iframe width='100%' height='800' frameborder='0' src='https://kwalkertcu.cartodb.com/viz/96410254-e871-11e4-a572-0e018d66dc29/embed_map' allowfullscreen webkitallowfullscreen mozallowfullscreen oallowfullscreen msallowfullscreen></iframe>
+
+<!--
 
 <img src=assets/img/dfw_latam.jpg style="width: 70%">
 
+-->
+
 ---
 
+<iframe width='100%' height='800' frameborder='0' src='https://kwalkertcu.cartodb.com/viz/c39cae6e-e872-11e4-a978-0e0c41326911/embed_map' allowfullscreen webkitallowfullscreen mozallowfullscreen oallowfullscreen msallowfullscreen></iframe>
+
+<!--
+
 <img src=assets/img/dfw_ese.jpg style="width: 70%">
+
+-->
 
 --- {bg: "http://upload.wikimedia.org/wikipedia/commons/0/06/Chicago_Chinatown_night.jpg", id: chinatown}
 
