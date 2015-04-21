@@ -46,6 +46,8 @@ ggplot(chicago) +
   stat_smooth(aes(x = dist_miles, y = lq_latam_2000), method = "loess", color = "blue", se = FALSE, size = 1.5) + 
   stat_smooth(aes(x = dist_miles, y = lq_latam_2013), method = "loess", color = "red", se = FALSE, size = 1.5) + 
   theme_minimal(base_size = 18) + 
+  geom_hline(yintercept = 1, linetype = "dashed", size = 1) + 
+  annotate("text", x = 50, y = 1.05, label = "Same proportion as metropolitan area") + 
   annotate("text", x = 55, y = 1.6, label = "2013", color = "red", size = 8, fontface = "bold") + 
   annotate("text", x = 50, y = 1.6, label = "2000", color = "blue", size = 8, fontface = "bold") + 
   xlab("Distance from city hall (miles)") + 
@@ -59,6 +61,8 @@ ggplot(chicago) +
   stat_smooth(aes(x = dist_miles, y = lq_ese_2000), method = "loess", color = "blue", se = FALSE, size = 1.5) + 
   stat_smooth(aes(x = dist_miles, y = lq_ese_2013), method = "loess", color = "red", se = FALSE, size = 1.5) + 
   theme_minimal(base_size = 18) + 
+  geom_hline(yintercept = 1, linetype = "dashed", size = 1) + 
+  annotate("text", x = 50, y = 1.05, label = "Same proportion as metropolitan area") + 
   annotate("text", x = 55, y = 1.6, label = "2013", color = "red", size = 8, fontface = "bold") + 
   annotate("text", x = 50, y = 1.6, label = "2000", color = "blue", size = 8, fontface = "bold") + 
   xlab("Distance from city hall (miles)") + 
@@ -101,6 +105,8 @@ ggplot(dallas) +
   stat_smooth(aes(x = dist_miles, y = lq_latam_2000), method = "loess", color = "blue", se = FALSE, size = 1.5) + 
   stat_smooth(aes(x = dist_miles, y = lq_latam_2013), method = "loess", color = "red", se = FALSE, size = 1.5) + 
   theme_minimal(base_size = 18) + 
+  geom_hline(yintercept = 1, linetype = "dashed", size = 1) + 
+  annotate("text", x = 50, y = 1.05, label = "Same proportion as metropolitan area") + 
   annotate("text", x = 55, y = 1.6, label = "2013", color = "red", size = 8, fontface = "bold") + 
   annotate("text", x = 50, y = 1.6, label = "2000", color = "blue", size = 8, fontface = "bold") + 
   xlab("Distance from city hall (miles)") + 
@@ -108,12 +114,14 @@ ggplot(dallas) +
   xlim(0, 60) + 
   ggtitle("Latin American immigrants, Dallas-Fort Worth")
 
-ggsave("d1.png", dpi = 300)
+ggsave("plots/d1.png", dpi = 300)
 
 ggplot(dallas) + 
   stat_smooth(aes(x = dist_miles, y = lq_ese_2000), method = "loess", color = "blue", se = FALSE, size = 1.5) + 
   stat_smooth(aes(x = dist_miles, y = lq_ese_2013), method = "loess", color = "red", se = FALSE, size = 1.5) + 
   theme_minimal(base_size = 18) + 
+  geom_hline(yintercept = 1, linetype = "dashed", size = 1) + 
+  annotate("text", x = 50, y = 1.05, label = "Same proportion as metropolitan area") + 
   annotate("text", x = 55, y = 1.6, label = "2013", color = "red", size = 8, fontface = "bold") + 
   annotate("text", x = 50, y = 1.6, label = "2000", color = "blue", size = 8, fontface = "bold") + 
   xlab("Distance from city hall (miles)") + 
@@ -121,7 +129,7 @@ ggplot(dallas) +
   xlim(0, 60) + 
   ggtitle("East & SE Asian immigrants, Dallas-Fort Worth")
 
-ggsave("d2.png", dpi = 300)
+ggsave("plots/d2.png", dpi = 300)
 
 # For mapping
 
