@@ -41,15 +41,15 @@ knit        : slidify::knit2slides
 
 .fragment 1983 
 
-.fragment <img src=assets/img/imm1983.png>
+.fragment <img src=assets/img/imm1983.PNG>
 
 .fragment 1993
 
-.fragment <img src=assets/img/imm1993.png>
+.fragment <img src=assets/img/imm1993.PNG>
 
 .fragment 2010
 
-.fragment <img src=assets/img/imm2010.png>
+.fragment <img src=assets/img/imm2010.PNG>
 
 --- {id: sect1}
 
