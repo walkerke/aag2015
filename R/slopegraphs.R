@@ -9,6 +9,10 @@
 
 source('R/data_prep.R')
 
+# Check for loaded packages
+
+sessionInfo()
+
 metro2 <- metro %>%
   group_by(metroid) %>%
   mutate(quantiles = ntile(distance, 5)) %>%
@@ -21,8 +25,6 @@ group_pct <- function(val) {
   pct <- 100 * (val / sum(val))
   pct
   }
-
-
 
 # Let's get the whole of the top X metros and try plotting a slope graph
 
@@ -176,8 +178,9 @@ g3 <- ggplot(ese) +
 ggsave("plots/ese.png", g3, dpi = 300, width = 8)
 
 
-
-
+###################################################
+# Old stuff plus others' code for learning purposes
+###################################################
 
 # ggplot(metro3) + 
 #   geom_line(aes(x = as.factor(year), y = percent, group = region, color = region), size = 2) + 

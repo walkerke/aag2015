@@ -4,7 +4,7 @@
 #   
 # 1. Format the data
 # 2. Prepare the loess plots
-# 3. Export for mapping (to be done in ArcGIS w/template from October)
+# 3. Export for mapping in CartoDB (interactive) and ArcGIS (static) 
 
 library(ggplot2)
 
@@ -29,16 +29,18 @@ chicago <- metro %>%
   mutate(
     lq_latam_diff = lq_latam_2013 - lq_latam_2000, 
     lq_ese_diff = lq_ese_2013 - lq_ese_2000, 
+    lq_ltm_rl = lq_latam_2013 / lq_latam_2000, 
+    lq_ese_rl = lq_ese_2013 / lq_ese_2000,
     dist_miles = distance / 1609.34
   )
 
-ggplot(chicago, aes(x = dist_miles, y = lq_latam_diff)) + 
-  geom_point(alpha = 0.4) + 
-  stat_smooth(method = "loess") 
-
-ggplot(chicago, aes(x = dist_miles, y = lq_ese_diff)) + 
-  geom_point(alpha = 0.4) + 
-  stat_smooth(method = "loess")
+# ggplot(chicago, aes(x = dist_miles, y = lq_latam_diff)) + 
+#   geom_point(alpha = 0.4) + 
+#   stat_smooth(method = "loess") 
+# 
+# ggplot(chicago, aes(x = dist_miles, y = lq_ese_diff)) + 
+#   geom_point(alpha = 0.4) + 
+#   stat_smooth(method = "loess")
 
 # Loess for both years - lq
 
@@ -72,10 +74,6 @@ ggplot(chicago) +
 
 ggsave("plots/c2.png", dpi = 300)
 
-ggplot(chicago) + 
-  stat_smooth(aes(x = dist_miles, y = lq_ese_2000), method = "loess", color = "blue") + 
-  stat_smooth(aes(x = dist_miles, y = lq_ese_2013), method = "loess", color = "red")
-
 # Dallas
 
 dallas <- metro %>%
@@ -89,6 +87,8 @@ dallas <- metro %>%
   mutate(
     lq_latam_diff = lq_latam_2013 - lq_latam_2000, 
     lq_ese_diff = lq_ese_2013 - lq_ese_2000, 
+    lq_ltm_rl = lq_latam_2013 / lq_latam_2000, 
+    lq_ese_rl = lq_ese_2013 / lq_ese_2000,
     dist_miles = distance / 1609.34
   )
 
@@ -137,35 +137,48 @@ library(rgdal)
 
 chi_tracts <- readOGR(dsn = "data/shape", layer = "chi_tracts")
 
-dfw_tracts <- readOGR(dsn = "data/shape", layer = "dfw_tracts")
-
-# ggplot(data = dfw_tracts) + geom_polygon(aes(x = long, y = lat, group = group)) + coord_equal(ratio = 1)
-
-# Fortify the data
-
-dfwtdf <- fortify(dfw_tracts, region = "tractid")
-
-chitdf <- fortify(chi_tracts, region = "tractid")
-
-chi2 <- chitdf %>%
-  left_join(chicago, by = c("id" = "tractid")) 
-
-# Try plotting
-
-ggplot(chi2) + 
-  geom_polygon(aes(x = long, y = lat, group = group, fill = lq_latam_diff)) + 
-  theme_minimal() + 
-  coord_equal() + 
-  scale_fill_gradient2(low = "blue", mid = "white", high = "red")
-
-# Try Leaflet
-
-library(leaflet)
-library(kwgeo)
-
 chi_tracts2 <- chi_tracts
 
 chi_tracts2@data <- sp::merge(chi_tracts2@data, chicago, by = "tractid", sort = FALSE)
+
+# Write for visualization in ArcGIS
+
+writeOGR(chi_tracts2, dsn = "data/shape", layer = "chi_tracts2", 
+         driver = "ESRI Shapefile", overwrite_layer = TRUE)
+
+# Now, Dallas
+
+dfw_tracts <- readOGR(dsn = "data/shape", layer = "dfw_tracts")
+
+dfw_tracts2 <- dfw_tracts
+
+dfw_tracts2@data <- sp::merge(dfw_tracts2@data, dallas, by = "tractid", sort = FALSE)
+
+writeOGR(dfw_tracts2, dsn = "data/shape", layer = "dfw_tracts2", 
+         driver = "ESRI Shapefile", overwrite_layer = TRUE)
+
+# Push to CartoDB for interactive visualization
+# Set WD to "data" first to save shapefile
+
+library(kwgeo)
+
+my_account_id = "kwalkertcu"
+
+my_api_key = "not_for_sharing"
+
+r2cartodb(chi_tracts2, "chicago1", my_account_id, my_api_key)
+
+r2cartodb(dfw_tracts2, "dfw1", my_account_id, my_api_key)
+
+
+#############################################################
+# Old ggplot2/Leaflet mapping code; keep for future reference
+#############################################################
+
+# Try Leaflet
+
+# library(leaflet)
+# library(kwgeo)
 
 # pal <- colorQuantile("RdBu", NULL, n = 7)
 # 
@@ -179,23 +192,19 @@ chi_tracts2@data <- sp::merge(chi_tracts2@data, chicago, by = "tractid", sort = 
 #               fillOpacity = 0.6, 
 #               weight = 0.2)
 
-
-# Write for visualization in ArcGIS
-
-writeOGR(chi_tracts2, dsn = "data/shape", layer = "chi_tracts2", driver = "ESRI Shapefile")
-
-# Now, Dallas
-
-dfw_tracts2 <- dfw_tracts
-
-dfw_tracts2@data <- sp::merge(dfw_tracts2@data, dallas, by = "tractid", sort = FALSE)
-
-writeOGR(dfw_tracts2, dsn = "data/shape", layer = "dfw_tracts2", driver = "ESRI Shapefile")
-
-# Push to CartoDB for interactive visualization
-
-account_id = "kwalkertcu"
-
-api_key = "5df64eccc8c443fe7c5622f97b7c4d86e5c98785"
+# dfwtdf <- fortify(dfw_tracts, region = "tractid")
+# 
+# chitdf <- fortify(chi_tracts, region = "tractid")
+# 
+# chi2 <- chitdf %>%
+#   left_join(chicago, by = c("id" = "tractid")) 
+# 
+# # Try plotting
+# 
+# ggplot(chi2) + 
+#   geom_polygon(aes(x = long, y = lat, group = group, fill = lq_latam_diff)) + 
+#   theme_minimal() + 
+#   coord_equal() + 
+#   scale_fill_gradient2(low = "blue", mid = "white", high = "red")
 
 

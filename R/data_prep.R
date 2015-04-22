@@ -1,5 +1,13 @@
 ## Script to prepare and merge the data from 2000 to 2013
 
+# A little background: 
+# Demographic and spatial data are from NHGIS, http://www.nhgis.org. 
+# Census tract data from 2000 were adjusted to 2010 boundaries in Stata using the script available
+#   from Brown U.'s LTDB project, http://www.s4.brown.edu/us2010/Researcher/LTDB.htm.  
+# Distances from tract centroids to their corresponding city halls were calculated in ArcGIS using Python/ArcPy. 
+#
+# These scripts are stored external to the repository; please contact me if you'd like to access them.  
+
 library(readr)
 library(dplyr)
 library(stringr)
@@ -46,7 +54,7 @@ regions13 %<>% rename(tractid = tractid_2013)
 regions00 <- read_stata('data/regions00to10.dta') 
 
 
-## Need some way to distinguish columns - add "00" to the names of vars
+## Need some way to distinguish columns - add "2000" to the names of vars
 
 colnames(regions00) <- paste0(colnames(regions00), "_2000")
 
